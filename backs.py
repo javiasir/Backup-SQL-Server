@@ -5,7 +5,8 @@ import pyodbc
 # cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';ENCRYPT=yes;UID='+username+';PWD='+password)
 
 try:
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password+';autocommit=True')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password+';')
+    cnxn.autocommit=True
     cursor = cnxn.cursor()
     select = cursor.execute("SELECT name from sys.databases;")
     
@@ -32,7 +33,8 @@ try:
             """)
         while cursor.nextset(): # Para "consumir" los mensajes de progreso emitidos por el BACKUP
             pass
-    
+
+    cnxn.autocommit=False
     cnxn.close()
     
     print("Conectado con exito") 
